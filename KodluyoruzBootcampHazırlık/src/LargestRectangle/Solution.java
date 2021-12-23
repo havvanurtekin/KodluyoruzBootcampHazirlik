@@ -35,28 +35,35 @@ class Result {
     int top = 0;
     int area = 0;
     
-    Stack<Integer> stack = new Stack<Integer>();
+    Stack<Integer> a = new Stack<Integer>();
     int i = 0;
     while(i<n){
-        if(stack.isEmpty() || h.get(stack.peek())<=h.get(i))
-            stack.push(i++);
-        else{
-            top = stack.peek();
-            stack.pop();
-            area = h.get(top)*(stack.isEmpty() ? i : i-stack.peek()-1);
-            
+        if(a.isEmpty() || h.get(a.lastElement())<=h.get(i)){
+            a.push(i++);
+        }else{
+            top = a.lastElement();
+            a.pop();
+            if(a.isEmpty()){
+                area = h.get(top)*i;
+            }else{
+                area = h.get(top)*(i-a.lastElement()-1);
+            }
             if(max<area)
                 max = area;
         }
     }
-    while(!stack.isEmpty()){
-        top = stack.peek();
-        stack.pop();
+    while(!a.isEmpty()){
+        top = a.lastElement();
+        a.pop();
         
-        area = h.get(top)*(stack.isEmpty() ? i : i-stack.peek()-1);
+        if(a.isEmpty()){
+             area = h.get(top)*i;
+        }else{
+            area = h.get(top)*(i-a.lastElement()-1);
+        }
             
-            if(max<area)
-                max = area;
+        if(max<area)
+            max = area;
     }
     return max;
 }
@@ -82,4 +89,3 @@ public class Solution {
         bufferedWriter.close();
     }
 }
-
